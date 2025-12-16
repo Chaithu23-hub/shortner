@@ -2,6 +2,7 @@ package com.url.shortner.controller;
 
 import com.url.shortner.dto.request.CreateShortUrlRequest;
 import com.url.shortner.dto.response.ShortUrlResponse;
+import com.url.shortner.dto.response.ShortUrlStatsResponse;
 import com.url.shortner.service.ShortUrlService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -46,5 +47,15 @@ public class ShortUrlController {
             @PathVariable String shortCode){
         shortUrlService.deleteShortUrl(shortCode);
         return ResponseEntity.noContent().build();
+    }
+
+    @GetMapping("/{shortCode}/stats")
+    public ResponseEntity<ShortUrlStatsResponse> getStats(
+            @PathVariable String shortCode) {
+
+        ShortUrlStatsResponse response =
+                shortUrlService.getStats(shortCode);
+
+        return ResponseEntity.ok(response);
     }
 }

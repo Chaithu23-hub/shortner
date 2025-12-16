@@ -2,13 +2,15 @@ package com.url.shortner.service;
 
 import com.url.shortner.dto.request.CreateShortUrlRequest;
 import com.url.shortner.dto.response.ShortUrlResponse;
+import com.url.shortner.dto.response.ShortUrlStatsResponse;
 import com.url.shortner.exception.ResourceNotFoundException;
 import com.url.shortner.model.ShortUrl;
 import com.url.shortner.repository.ShortUrlRepository;
-import jakarta.transaction.Transactional;
+
 import lombok.RequiredArgsConstructor;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 
 import java.security.SecureRandom;
@@ -86,6 +88,23 @@ public class ShortUrlServiceImp implements ShortUrlService{
         ShortUrl urlEntity=shortUrlRepository.findByShortCodeAndDeletedFalse(shortCode)
                 .orElseThrow(()->new ResourceNotFoundException("Short URL not found for code: " + shortCode));
         urlEntity.setDeleted(true);
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public ShortUrlStatsResponse getStats(String shortCode) {
+        ShortUrl urlEntity = shortUrlRepository
+                .findByShortCodeAndDeletedFalse(shortCode)
+                .orElseThrow(() -> new ResourceNotFoundException(
+                        "Short URL not found for code: " + shortCode));
+        return new ShortUrlStatsResponse(
+                urlEntity.getId(),
+                urlEntity.getUrl(),
+                urlEntity.getShortCode(),
+                urlEntity.getCreatedAt(),
+                urlEntity.getUpdatedAt(),
+                urlEntity.getAccessCount()
+        );
     }
 
 
