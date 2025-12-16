@@ -7,11 +7,13 @@ import lombok.*;
 import org.hibernate.annotations.UpdateTimestamp;
 import org.hibernate.validator.constraints.URL;
 import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.time.LocalDateTime;
 
 @Entity
-
+@EntityListeners(AuditingEntityListener.class)
 @Table(
         name="short_urls",
         uniqueConstraints = {
@@ -48,7 +50,7 @@ public class ShortUrl {
     @Column(name = "created_at",updatable = false)
     private LocalDateTime createdAt;
 
-    @UpdateTimestamp
+    @LastModifiedDate
     @Column(name = "updated_at")
     private LocalDateTime updatedAt;
 
