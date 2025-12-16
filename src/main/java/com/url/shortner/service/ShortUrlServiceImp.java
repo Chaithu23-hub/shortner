@@ -68,7 +68,7 @@ public class ShortUrlServiceImp implements ShortUrlService{
         );
 
         urlEntity.setAccessCount(urlEntity.getAccessCount()+1);
-        //shortUrlRepository.save(urlEntity); No need to call save() explicitly due to @Transactional
+        shortUrlRepository.save(urlEntity);// No need to call save() explicitly due to @Transactional
 
         return mapToResponse(urlEntity);
     }

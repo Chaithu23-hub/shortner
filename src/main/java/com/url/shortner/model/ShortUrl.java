@@ -18,7 +18,11 @@ import java.time.LocalDateTime;
         name="short_urls",
         uniqueConstraints = {
                 @UniqueConstraint(name = "uk_short_code",columnNames = "short_code")
-        }
+        },
+    indexes = {
+@Index(name = "idx_short_code", columnList = "short_code"),
+@Index(name = "idx_short_code_deleted", columnList = "short_code, is_deleted")
+    }
 )
 @Getter
 @Setter
