@@ -28,7 +28,7 @@ public class ShortUrlServiceImp implements ShortUrlService{
 
     @Override
     @Transactional
-    public ShortUrlResponse createShortUrl(CreateShortUrlRequest request) {
+    public ShortUrlResponse createShortUrl(CreateShortUrlRequest request)   {
 
         int attempts=0;
         ShortUrl savedEntity=null;
